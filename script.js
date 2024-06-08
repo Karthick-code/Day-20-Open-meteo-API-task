@@ -1,15 +1,14 @@
-
 result();
 async function result() {
   try {
-    var data = await fetch("https://restcountries.com/v3.1/all");
+    var data = await fetch("https://raw.githubusercontent.com/rvsp/restcountries-json-data/master/res-countries.json");
     var res = await data.json();
     console.log(res);
     var select = document.getElementById("country");
     for (var i = 0; i < res.length; i++) {
       const opt = document.createElement("option");
-      opt.value = res[i].name.common;
-      opt.innerText = res[i].name.common;
+      opt.value = res[i].name;
+      opt.innerText = res[i].name;
       select.append(opt);
 
       //console.log(opt)
@@ -23,20 +22,18 @@ async function result() {
   }
 }
 
-
 function display(x) {
   var select = document.getElementById("country");
   var value = select.options[select.selectedIndex].text;
   console.log(value);
   var country_data = x.filter((element) => {
-    if (element.name.common == value) {
+    if (element.name == value) {
       return element;
     }
   });
   console.log(country_data);
   var y = country_data[0];
   weather_report(y.latlng, y)
-
 
 }
 async function weather_report(arr, y) {
@@ -53,7 +50,7 @@ async function weather_report(arr, y) {
   if (document.querySelector("#card") !== null) {
     var parent = document.querySelector("#card");
     parent.innerHTML = `<div class="card border-info mb-3" style="max-width: 18rem;">
-    <div class="card-header" style="font-size:40px">${y.name.common}</div>
+    <div class="card-header" style="font-size:40px">${y.name}</div>
     <div class="card-body text-info">
       <h5 class="text-center">Temperature-Details</h5>
       <p class="card-text output"><b>Current-Temperature: ${res1.current.temperature_2m}</b></p>
@@ -65,7 +62,7 @@ async function weather_report(arr, y) {
   }
   else {
     card_div.innerHTML = `<div class="card border-info mb-3" style="max-width: 18rem;">
-        <div class="card-header" style="font-size:40px">${y.name.common}</div>
+        <div class="card-header" style="font-size:40px">${y.name}</div>
         <div class="card-body text-info">
           <h5 class="text-center">Temperature-Details</h5>
           <p class="card-text output"><b>Current-Temperature: ${res1.current.temperature_2m}</b></p>
